@@ -1,0 +1,58 @@
+#Tic_tac_to_game
+
+# Initialize the Tic-Tac-Toe board
+board = [" " for _ in range(9)]
+
+# Function to print the Tic-Tac-Toe board
+def print_board(board):
+    print(f"{board[0]} | {board[1]} | {board[2]}")
+    print("-" * 9)
+    print(f"{board[3]} | {board[4]} | {board[5]}")
+    print("-" * 9)
+    print(f"{board[6]} | {board[7]} | {board[8]}")
+
+# Function to check if the game is over
+def is_game_over(board):
+    # Check rows, columns, and diagonals for a win
+    win_conditions = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
+                      (0, 3, 6), (1, 4, 7), (2, 5, 8),
+                      (0, 4, 8), (2, 4, 6)]
+    
+    for condition in win_conditions:
+        if board[condition[0]] == board[condition[1]] == board[condition[2]] != " ":
+            return True
+
+    # Check for a draw
+    if " " not in board:
+        return True
+
+    return False
+
+# Main game loop
+current_player = "X"
+while not is_game_over(board):
+    print_board(board)
+    print(f"Player {current_player}, it's your turn. Enter a position (1-9): ")
+    
+    try:
+        position = int(input()) - 1
+        if position < 0 or position > 8 or board[position] != " ":
+            print("Invalid move. Try again.")
+            continue
+        
+        board[position] = current_player
+        
+        if current_player == "X":
+            current_player = "O"
+        else:
+            current_player = "X"
+
+    except ValueError:
+        print("Invalid input. Please enter a number (1-9).")
+
+# Game over message
+print_board(board)
+if " " not in board:
+    print("It's a draw!")
+else:
+    print(f"Player {current_player} wins!")
